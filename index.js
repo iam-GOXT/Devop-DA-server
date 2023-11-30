@@ -55,7 +55,10 @@ app.use("/da", router);
 // app.use(errorHandler)
 
 mongoose
-  .connect(process.env.MONGODB_URI_offline)
+  .connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
 
   .then(() => {
     console.log("DB Connected");
