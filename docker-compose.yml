@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: .
+      target: dev
+    environment:
+      NODE_ENV: development
+    ports:
+      - 5500:5500
+      - 9229:9229
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - server-db
+
+  db:
+    image: mongo
+    restart: always
+    expose:
+      - 27017
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok'
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - server-db
+
+volumes:
+  db-data:
+
+networks:
+  server-db:
+
