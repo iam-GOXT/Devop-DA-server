@@ -2,22 +2,24 @@ version: '3.8'
 
 services:
   server:
+    container_name: da-server
     build:
       context: .
-      target: prod
+      dockerfile: Dockerfile.prod
+    restart: always
     environment:
-      NODE_ENV: production
+      - NODE_ENV=production
     ports:
       - 5500:5500
-      - 9229:9229
     depends_on:
       db:
         condition: service_healthy
     networks:
-      - server-db
-
+      - server-db-network
+  
   db:
     image: mongo
+    container_name: da-db
     restart: always
     expose:
       - 27017
@@ -27,11 +29,11 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - server-db
+      - server-db-network
+
+networks:
+  server-db-network:
+    driver: bridge
 
 volumes:
   db-data:
-
-networks:
-  server-db:
-
