@@ -1,18 +1,20 @@
-version: '3.8'
-
-services:
+version: "3.8"
+services: 
   server:
+    container_name: da-dev-server
     build:
       context: .
+      dockerfile: ./Dockerfile
       target: dev
+    restart: always
+    command: npm run dev
     environment:
-      NODE_ENV: development
+      - NODE_ENV=development
+    volumes:
+      - .:/app
+      - /app/node_modules
     ports:
       - 5500:5500
-      - 9229:9229
-    depends_on:
-      db:
-        condition: service_healthy
     networks:
       - server-db
 
@@ -34,4 +36,3 @@ volumes:
 
 networks:
   server-db:
-
