@@ -33,6 +33,7 @@ app.use(
       "https://da-admin-portal-*.vercel.app",
       "https://admin.tuitionfreecourses.com",
       "https://tuitionfreecourses.com",
+      "https://167.235.17.99",
     ],
     methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
     headers: "Content-Type, Authorization, X-Requested-With",
