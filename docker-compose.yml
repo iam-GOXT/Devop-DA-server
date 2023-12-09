@@ -1,7 +1,7 @@
 version: "3.8"
 services: 
-  server:
-    container_name: da-dev-server
+  dev-server:
+    container_name: da-server
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -16,9 +16,13 @@ services:
     ports:
       - 5500:5500
     networks:
-      - server-db
+      - server-db-network
+    depends_on:
+      dev-db:
+        condition: service_healthy
 
-  db:
+  dev-db:
+    container_name: da-db
     image: mongo
     restart: always
     expose:
@@ -29,10 +33,10 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - server-db
-
-volumes:
-  db-data:
+      - server-db-network
+    volumes:
+      - mongodb_data:/data/db
 
 networks:
-  server-db:
+  server-db-network:
+    driver: bridge

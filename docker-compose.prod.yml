@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  server:
+  da-server:
     container_name: da-server
     build:
       context: .
@@ -30,6 +30,8 @@ services:
       retries: 5
     networks:
       - server-db-network
+    volumes:
+      - db-data:/data/db
 
 networks:
   server-db-network:
